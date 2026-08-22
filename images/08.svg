@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 1400" width="1050" height="1400">
+  <rect width="1050" height="1400" fill="#7d8ea8"/>
+  <g fill="none" stroke="#0f1216" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="970" height="1320"/>
+    <line x1="40" y1="40" x2="1010" y2="1360"/>
+    <line x1="1010" y1="40" x2="40" y2="1360"/>
+  </g>
+  <text x="525" y="700" fill="#0f1216" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="57" letter-spacing="6" text-anchor="middle">PALE / PRESS</text>
+  <text x="525" y="752" fill="#0f1216" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="29" letter-spacing="3" text-anchor="middle" opacity="0.6">1050 × 1400</text>
+</svg>

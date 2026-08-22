@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harry Down — Design</title>
+<meta name="description" content="Design portfolio of Harry Down.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=3">
+</head>
+<body>
+  <!-- images are appended here, each above the last -->
+  <div class="stage" id="stage" aria-hidden="true"></div>
+
+  <header class="ui">
+    <span class="label label--tl">HARRY DOWN</span>
+    <button class="label label--tr" id="contact" type="button"
+            aria-expanded="false" aria-controls="info">CONTACT</button>
+  </header>
+
+  <footer class="ui">
+    <span class="label label--bl" id="client"></span>
+    <span class="label label--br" id="project"></span>
+  </footer>
+
+  <section class="info" id="info" tabindex="-1" aria-label="Contact" aria-hidden="true">
+    <div class="info__inner">
+      <p class="info__lead">MULTIDISCIPLINARY DESIGNER &amp; CREATIVE</p>
+
+      <ul class="info__list">
+        <li>BRAND IDENTITY</li>
+        <li>EXPERIENCE STRATEGY</li>
+        <li>INTERFACE DESIGN</li>
+        <li>INTERACTIVE DESIGN</li>
+        <li>MOTION DESIGN</li>
+        <li>VIDEO PRODUCTION</li>
+      </ul>
+
+      <a class="info__mail" href="mailto:hello@harrydown.design">HELLO@HARRYDOWN.DESIGN</a>
+    </div>
+  </section>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <script src="js/sizes.js?v=3"></script>
+  <script src="js/work.js?v=3"></script>
+  <script src="js/main.js?v=3"></script>
+</body>
+</html>

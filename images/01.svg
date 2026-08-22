@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
+  <rect width="1200" height="1500" fill="#c8c4bd"/>
+  <g fill="none" stroke="#1a1a1a" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="1120" height="1420"/>
+    <line x1="40" y1="40" x2="1160" y2="1460"/>
+    <line x1="1160" y1="40" x2="40" y2="1460"/>
+  </g>
+  <text x="600" y="750" fill="#1a1a1a" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="66" letter-spacing="7" text-anchor="middle">ARC MAGAZINE</text>
+  <text x="600" y="810" fill="#1a1a1a" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="33" letter-spacing="3" text-anchor="middle" opacity="0.6">1200 × 1500</text>
+</svg>

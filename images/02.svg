@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000">
+  <rect width="1600" height="1000" fill="#8f9aa3"/>
+  <g fill="none" stroke="#101418" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="1520" height="920"/>
+    <line x1="40" y1="40" x2="1560" y2="960"/>
+    <line x1="1560" y1="40" x2="40" y2="960"/>
+  </g>
+  <text x="800" y="500" fill="#101418" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="88" letter-spacing="9" text-anchor="middle">NORTHFIELD</text>
+  <text x="800" y="580" fill="#101418" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="44" letter-spacing="4" text-anchor="middle" opacity="0.6">1600 × 1000</text>
+</svg>

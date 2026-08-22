@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1050" width="1400" height="1050">
+  <rect width="1400" height="1050" fill="#6f7b6a"/>
+  <g fill="none" stroke="#f2f0eb" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="1320" height="970"/>
+    <line x1="40" y1="40" x2="1360" y2="1010"/>
+    <line x1="1360" y1="40" x2="40" y2="1010"/>
+  </g>
+  <text x="700" y="525" fill="#f2f0eb" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="77" letter-spacing="8" text-anchor="middle">KIOSK STUDIO</text>
+  <text x="700" y="595" fill="#f2f0eb" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="39" letter-spacing="4" text-anchor="middle" opacity="0.6">1400 × 1050</text>
+</svg>

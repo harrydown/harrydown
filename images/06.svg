@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <rect width="1600" height="900" fill="#4a4f58"/>
+  <g fill="none" stroke="#f2f0eb" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="1520" height="820"/>
+    <line x1="40" y1="40" x2="1560" y2="860"/>
+    <line x1="1560" y1="40" x2="40" y2="860"/>
+  </g>
+  <text x="800" y="450" fill="#f2f0eb" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="88" letter-spacing="9" text-anchor="middle">TEMPO</text>
+  <text x="800" y="530" fill="#f2f0eb" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="44" letter-spacing="4" text-anchor="middle" opacity="0.6">1600 × 900</text>
+</svg>

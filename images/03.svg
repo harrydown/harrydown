@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <rect width="1000" height="1000" fill="#d9d2c6"/>
+  <g fill="none" stroke="#1a1a1a" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="920" height="920"/>
+    <line x1="40" y1="40" x2="960" y2="960"/>
+    <line x1="960" y1="40" x2="40" y2="960"/>
+  </g>
+  <text x="500" y="500" fill="#1a1a1a" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="55" letter-spacing="6" text-anchor="middle">SOLUM</text>
+  <text x="500" y="550" fill="#1a1a1a" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="28" letter-spacing="3" text-anchor="middle" opacity="0.6">1000 × 1000</text>
+</svg>

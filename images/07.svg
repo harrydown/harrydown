@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" width="1200" height="1200">
+  <rect width="1200" height="1200" fill="#c2453a"/>
+  <g fill="none" stroke="#f7f4ef" stroke-width="2" opacity="0.35">
+    <rect x="40" y="40" width="1120" height="1120"/>
+    <line x1="40" y1="40" x2="1160" y2="1160"/>
+    <line x1="1160" y1="40" x2="40" y2="1160"/>
+  </g>
+  <text x="600" y="600" fill="#f7f4ef" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="66" letter-spacing="7" text-anchor="middle">MERIDIAN</text>
+  <text x="600" y="660" fill="#f7f4ef" font-family="Geist Mono, ui-monospace, monospace"
+        font-size="33" letter-spacing="3" text-anchor="middle" opacity="0.6">1200 × 1200</text>
+</svg>
