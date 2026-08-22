@@ -198,6 +198,16 @@ body.info-open .label--br { opacity: 0; }
 }
 body.has-cursor .cursor { opacity: 1; }
 
+/* Touch devices have no pointer to stand in for, and mobile browsers fire
+   synthetic mouse events after a tap — which would strand the square wherever
+   the last tap landed. Keyed off the input type, not screen size, so an iPad
+   with a trackpad still gets it. */
+@media (hover: none), (pointer: coarse) {
+  .cursor { display: none; }
+  body.has-cursor,
+  body.has-cursor * { cursor: auto; }
+}
+
 /* ---------------------------------------------------------------- small */
 
 @media (max-width: 700px) {

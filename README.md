@@ -92,8 +92,8 @@ returning visitors don't get a stale stylesheet or script from cache.
 
 Clicking `CONTACT` covers the work with a full-screen panel (`.info` in
 `index.html`) holding the discipline line, the services list, and the email
-address, centred on both axes. It closes on `CLOSE`, on `Escape`, or on a click
-anywhere in the empty field around the text. While it's open the work stops
+address, centred on both axes. It closes on `CLOSE`, or on `Escape`. Clicking the panel itself does nothing —
+deliberately, so the screen can't be dismissed by accident. While it's open the work stops
 generating, so moving the cursor doesn't pile up images behind it.
 
 The address appears twice — the `mailto:` on `.info__mail` and the visible text.

@@ -52,6 +52,10 @@
 
   let infoOpen = false;  // contact screen covering the work
 
+  // A real pointer to replace with the square — false on phones and tablets.
+  const FINE_POINTER = !window.matchMedia ||
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
   // Pointer position is written on every move but only painted once per frame.
   let px = 0, py = 0, frame = null;
 
@@ -238,11 +242,6 @@
     if (e.key === "Escape" && infoOpen) setInfo(false);
   });
 
-  // Clicking the empty field around the text closes it too.
-  info.addEventListener("click", function (e) {
-    if (e.target === info) setInfo(false);
-  });
-
   /* -------------------------------------------------------------- motion */
 
   function paint() {
@@ -273,7 +272,7 @@
   }
 
   window.addEventListener("mousemove", function (e) {
-    document.body.classList.add("has-cursor");
+    if (FINE_POINTER) document.body.classList.add("has-cursor");
     track(e.clientX, e.clientY);
   }, { passive: true });
 
