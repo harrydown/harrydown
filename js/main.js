@@ -37,6 +37,13 @@
   const projEl   = document.getElementById("project");
   const info     = document.getElementById("info");
   const contact  = document.getElementById("contact");
+  const videos   = document.getElementById("videos");
+  const videoPanel = document.getElementById("video-panel");
+  const videoClose = document.getElementById("video-close");
+  const videoList = document.getElementById("video-list");
+  const videoPlayer = document.getElementById("video-player");
+  const videoEmpty = document.getElementById("video-empty");
+  const videoTitle = document.getElementById("video-title");
 
   /* --------------------------------------------------------------- state */
 
@@ -51,6 +58,7 @@
   let idleTimer = null;
 
   let infoOpen = false;  // contact screen covering the work
+  let videoOpen = false;
 
   // A real pointer to replace with the square — false on phones and tablets.
   const FINE_POINTER = !window.matchMedia ||
@@ -238,8 +246,59 @@
     setInfo(!infoOpen);
   });
 
+  function setVideoPanel(open) {
+    videoOpen = open;
+    videoPanel.classList.toggle("is-open", open);
+    videoPanel.setAttribute("aria-hidden", open ? "false" : "true");
+    document.body.classList.toggle("video-open", open);
+    videos.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) videoClose.focus();
+    else {
+      videoPlayer.pause();
+      videoPlayer.removeAttribute("src");
+      videoPlayer.load();
+      videoPlayer.hidden = true;
+      videoEmpty.hidden = false;
+      videoTitle.textContent = "";
+      videos.focus();
+    }
+  }
+
+  videos.addEventListener("click", function () {
+    setVideoPanel(!videoOpen);
+  });
+
+  videoClose.addEventListener("click", function () {
+    setVideoPanel(false);
+  });
+
+  videoList.addEventListener("click", function (e) {
+    const choice = e.target.closest("button[data-video]");
+    if (!choice) return;
+    videoList.querySelectorAll("button").forEach(function (button) {
+      button.classList.toggle("is-active", button === choice);
+    });
+    videoPlayer.src = choice.dataset.video;
+    videoPlayer.hidden = false;
+    videoEmpty.hidden = true;
+    videoTitle.textContent = choice.dataset.title;
+    videoPlayer.play().catch(function () {});
+  });
+
+  const requestedVideo = new URLSearchParams(window.location.search).get("video");
+  if (requestedVideo) {
+    const choice = Array.from(videoList.querySelectorAll("button[data-video]")).find(function (button) {
+      return decodeURIComponent(button.dataset.video) === "videos/" + requestedVideo;
+    });
+    if (choice) {
+      setVideoPanel(true);
+      choice.click();
+    }
+  }
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && infoOpen) setInfo(false);
+    if (e.key === "Escape" && videoOpen) setVideoPanel(false);
   });
 
   /* -------------------------------------------------------------- motion */
@@ -255,7 +314,7 @@
     if (frame === null) frame = window.requestAnimationFrame(paint);
 
     // The cursor still moves while the contact screen is up; the work doesn't.
-    if (infoOpen) return;
+    if (infoOpen || videoOpen) return;
 
     if (lastX === null) { lastX = x; lastY = y; return; }
 
