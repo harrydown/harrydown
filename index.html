@@ -23,10 +23,9 @@
   <header class="ui">
     <span class="label label--tl">HARRY DOWN</span>
       <nav class="ui__nav" aria-label="Site navigation">
-        <button class="label" id="videos" type="button"
-          aria-expanded="false" aria-controls="video-panel">VIDEOS</button>
         <button class="label" id="contact" type="button"
           aria-expanded="false" aria-controls="info">CONTACT</button>
+        <button class="label" id="video-close" type="button">CLOSE</button>
       </nav>
   </header>
 
@@ -56,7 +55,6 @@
     <div class="video-panel__inner">
       <header class="video-panel__header">
         <p>SELECT A VIDEO</p>
-        <button class="label" id="video-close" type="button">CLOSE</button>
       </header>
       <div class="video-panel__content">
         <div class="video-panel__list" id="video-list">
@@ -77,7 +75,7 @@
         </div>
         <div class="video-panel__player">
           <p class="video-panel__empty" id="video-empty">SELECT A VIDEO</p>
-          <video id="video-player" controls preload="metadata" hidden></video>
+          <video id="video-player" controls loop preload="metadata" hidden></video>
           <p class="video-panel__title" id="video-title"></p>
         </div>
       </div>

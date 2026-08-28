@@ -251,7 +251,7 @@
     videoPanel.classList.toggle("is-open", open);
     videoPanel.setAttribute("aria-hidden", open ? "false" : "true");
     document.body.classList.toggle("video-open", open);
-    videos.setAttribute("aria-expanded", open ? "true" : "false");
+    if (videos) videos.setAttribute("aria-expanded", open ? "true" : "false");
     if (open) videoClose.focus();
     else {
       videoPlayer.pause();
@@ -260,13 +260,18 @@
       videoPlayer.hidden = true;
       videoEmpty.hidden = false;
       videoTitle.textContent = "";
-      videos.focus();
+      const url = new URL(window.location.href);
+      url.searchParams.delete("video");
+      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+      if (videos) videos.focus();
     }
   }
 
-  videos.addEventListener("click", function () {
-    setVideoPanel(!videoOpen);
-  });
+  if (videos) {
+    videos.addEventListener("click", function () {
+      setVideoPanel(!videoOpen);
+    });
+  }
 
   videoClose.addEventListener("click", function () {
     setVideoPanel(false);
