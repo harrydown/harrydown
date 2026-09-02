@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 – Harry Down</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg?v=8" type="image/svg+xml">
+<link rel="icon" href="favicon-32-dark.png?v=8" sizes="32x32" type="image/png"
+      media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon-32-light.png?v=8" sizes="32x32" type="image/png"
+      media="(prefers-color-scheme: light)">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Self-contained on purpose: a 404 has to render even if a stylesheet is
+     missing or cached from an older deploy. Tokens mirror css/style.css. */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body { height: 100%; background: #000; color: #fff; }
+
+  body {
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .ui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+  }
+
+  .label {
+    color: #fff;
+    border: 0;
+    background: none;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 0.3em 0.32em 0.3em 0.4em;
+    margin: -0.3em -0.32em -0.3em -0.4em;
+    transition: background-color 120ms ease, color 120ms ease;
+  }
+
+  a.label:hover,
+  a.label:focus-visible,
+  button.label:hover,
+  button.label:focus-visible {
+    background-color: #fff;
+    color: #000;
+  }
+
+  main {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.6em;
+    padding: 72px 24px;
+    text-align: center;
+  }
+
+  .code {
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .info {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px 24px;
+    background: #000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 260ms ease, visibility 0s linear 260ms;
+  }
+
+  .info.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 260ms ease, visibility 0s;
+  }
+
+  .info__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.6em;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .info__lead { line-height: 1.8; }
+  .info__list { list-style: none; line-height: 2; }
+
+  .ui { z-index: 60; }
+
+  @media (max-width: 700px) {
+    .ui { padding: 16px; }
+    body { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+  <header class="ui">
+    <a class="label" href="/">HARRY DOWN</a>
+    <button class="label" id="contact" type="button"
+            aria-expanded="false" aria-controls="info">CONTACT</button>
+  </header>
+
+  <main>
+    <p class="code">404 — PAGE NOT FOUND</p>
+    <a class="label" href="/">RETURN TO WORK</a>
+  </main>
+  <section class="info" id="info" tabindex="-1" aria-label="Contact" aria-hidden="true">
+    <div class="info__inner">
+      <p class="info__lead">MULTIDISCIPLINARY DESIGNER &amp; CREATIVE</p>
+
+      <ul class="info__list">
+        <li>BRAND</li>
+        <li>EXPERIENCE</li>
+        <li>INTERACTIVE</li>
+        <li>INTERFACE</li>
+        <li>CONTENT</li>
+      </ul>
+
+      <a class="label" href="mailto:hello@harrydown.design">HELLO@HARRYDOWN.DESIGN</a>
+    </div>
+  </section>
+
+  <script>
+    // Same behaviour as the main site: CONTACT toggles to CLOSE, Escape exits.
+    (function () {
+      var info = document.getElementById("info");
+      var contact = document.getElementById("contact");
+      var open = false;
+
+      function set(next) {
+        open = next;
+        info.classList.toggle("is-open", open);
+        info.setAttribute("aria-hidden", open ? "false" : "true");
+        contact.setAttribute("aria-expanded", open ? "true" : "false");
+        contact.textContent = open ? "CLOSE" : "CONTACT";
+        if (open) info.focus(); else contact.focus();
+      }
+
+      contact.addEventListener("click", function () { set(!open); });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && open) set(false);
+      });
+    })();
+  </script>
+</body>
+</html>
