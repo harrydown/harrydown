@@ -1,10 +1,14 @@
 # Video Index
 
-Video assets are committed directly to the repository (not Git LFS).
+Live site: **<https://harrydown.design>**
+
+Every link below opens the site with that video playing. Video assets are
+committed directly to the repository (not Git LFS).
 
 | Video | Format | Notes |
 | --- | --- | --- |
 | [0-HumanOnTheInside-Grid_FINAL.mp4](https://harrydown.design/?video=0-HumanOnTheInside-Grid_FINAL.mp4) | MP4 |  |
+| [GSM - Web Loop.mp4](https://harrydown.design/?video=GSM%20-%20Web%20Loop.mp4) | MP4 | Geelong Sports Museum |
 | [Maxme Brand and Product_SH_Final_V3-960.mp4](https://harrydown.design/?video=Maxme%20Brand%20and%20Product_SH_Final_V3-960.mp4) | MP4 |  |
 | [Maxme-Events-Promo-Final.mp4](https://harrydown.design/?video=Maxme-Events-Promo-Final.mp4) | MP4 |  |
 | [Maxme-HumanOnTheInside-Video-Whos_Next-1x1-v3.mp4](https://harrydown.design/?video=Maxme-HumanOnTheInside-Video-Whos_Next-1x1-v3.mp4) | MP4 |  |
