@@ -112,6 +112,34 @@
 
   .ui { z-index: 60; }
 
+  /* Square cursor, as on the main site. */
+  body.has-cursor,
+  body.has-cursor * { cursor: none; }
+
+  .cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform;
+  }
+
+  body.has-cursor .cursor { opacity: 1; }
+
+  /* Nothing to stand in for on a touchscreen, and a tap would strand it. */
+  @media (hover: none), (pointer: coarse) {
+    .cursor { display: none; }
+    body.has-cursor,
+    body.has-cursor * { cursor: auto; }
+  }
+
   @media (max-width: 700px) {
     .ui { padding: 16px; }
     body { font-size: 11px; }
@@ -126,8 +154,8 @@
   </header>
 
   <main>
-    <p class="code">404 — PAGE NOT FOUND</p>
-    <a class="label" href="/">RETURN TO WORK</a>
+    <p class="code">404<br>PAGE NOT FOUND</p>
+    <a class="label" href="/">RETURN HOME</a>
   </main>
   <section class="info" id="info" tabindex="-1" aria-label="Contact" aria-hidden="true">
     <div class="info__inner">
@@ -144,6 +172,8 @@
       <button class="label" id="email-reveal" type="button">EMAIL ME</button>
     </div>
   </section>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <script>
     // Same behaviour as the main site: CONTACT toggles to CLOSE, Escape exits.
@@ -176,6 +206,29 @@
       }
 
       contact.addEventListener("click", function () { set(!open); });
+
+      // Square cursor: only where there's a real pointer to replace.
+      var FINE_POINTER = !window.matchMedia ||
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      var cursor = document.getElementById("cursor");
+      var px = 0, py = 0, frame = null;
+
+      function paint() {
+        frame = null;
+        cursor.style.transform =
+          "translate3d(" + px + "px," + py + "px,0) translate(-50%,-50%)";
+      }
+
+      window.addEventListener("mousemove", function (e) {
+        if (FINE_POINTER) document.body.classList.add("has-cursor");
+        px = e.clientX;
+        py = e.clientY;
+        if (frame === null) frame = window.requestAnimationFrame(paint);
+      }, { passive: true });
+
+      document.addEventListener("mouseleave", function () {
+        document.body.classList.remove("has-cursor");
+      });
 
       // Assembled at click time so the address never sits in the page source.
       reveal.addEventListener("click", function () {
