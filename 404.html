@@ -150,7 +150,16 @@
     (function () {
       var info = document.getElementById("info");
       var contact = document.getElementById("contact");
+      var reveal = document.getElementById("email-reveal");
       var open = false;
+      var revealed = null;
+
+      // Put EMAIL ME back, so reopening never shows a bare address.
+      function hideEmail() {
+        if (!revealed) return;
+        revealed.replaceWith(reveal);
+        revealed = null;
+      }
 
       function set(next) {
         open = next;
@@ -158,13 +167,17 @@
         info.setAttribute("aria-hidden", open ? "false" : "true");
         contact.setAttribute("aria-expanded", open ? "true" : "false");
         contact.textContent = open ? "CLOSE" : "CONTACT";
-        if (open) info.focus(); else contact.focus();
+        if (open) {
+          info.focus();
+        } else {
+          hideEmail();
+          contact.focus();
+        }
       }
 
       contact.addEventListener("click", function () { set(!open); });
 
       // Assembled at click time so the address never sits in the page source.
-      var reveal = document.getElementById("email-reveal");
       reveal.addEventListener("click", function () {
         var address = window.atob("aGVsbG9AaGFycnlkb3duLmRlc2lnbg==");
         var link = document.createElement("a");
@@ -172,6 +185,7 @@
         link.href = "mailto:" + address;
         link.textContent = address.toUpperCase();
         reveal.replaceWith(link);
+        revealed = link;
         link.focus();
       });
       document.addEventListener("keydown", function (e) {

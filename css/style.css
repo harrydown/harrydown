@@ -179,6 +179,15 @@ body.video-open #video-close { display: inline-block; }
 .info__mail {
   color: var(--fg);
   text-decoration: none;
+  /* This is a <button> before the address is revealed and an <a> after, so it
+     needs the button reset — without it the browser's default chrome shows
+     through as a light fill behind white text. */
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
   padding: 0.3em 0.32em 0.3em 0.4em;
   margin: -0.3em -0.32em -0.3em -0.4em;
   transition: background-color 120ms ease, color 120ms ease;

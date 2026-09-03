@@ -59,6 +59,7 @@
   let idleTimer = null;
 
   let infoOpen = false;  // contact screen covering the work
+  let revealedEmail = null;  // the <a> swapped in for the EMAIL ME button
   let videoOpen = false;
 
   // A real pointer to replace with the square — false on phones and tablets.
@@ -226,6 +227,13 @@
 
   /* ------------------------------------------------------- contact screen */
 
+  // Put EMAIL ME back, so reopening the screen never shows a bare address.
+  function hideEmail() {
+    if (!revealedEmail) return;
+    revealedEmail.replaceWith(emailReveal);
+    revealedEmail = null;
+  }
+
   function setInfo(open) {
     infoOpen = open;
     info.classList.toggle("is-open", open);
@@ -240,7 +248,10 @@
     lastY = null;
 
     if (open) info.focus();
-    else contact.focus();
+    else {
+      hideEmail();
+      contact.focus();
+    }
   }
 
   contact.addEventListener("click", function () {
@@ -258,6 +269,7 @@
       link.href = "mailto:" + address;
       link.textContent = address.toUpperCase();
       emailReveal.replaceWith(link);
+      revealedEmail = link;
       link.focus();
     });
   }
