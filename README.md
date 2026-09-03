@@ -96,5 +96,12 @@ address, centred on both axes. It closes on `CLOSE`, or on `Escape`. Clicking th
 deliberately, so the screen can't be dismissed by accident. While it's open the work stops
 generating, so moving the cursor doesn't pile up images behind it.
 
-The address appears twice — the `mailto:` on `.info__mail` and the visible text.
-Change both if you swap it.
+The address is not written in the HTML. The panel shows an `EMAIL ME` button;
+`js/main.js` decodes the address from base64 on click and swaps in a real
+`mailto:` link, so address-harvesting crawlers find nothing in the source. To
+change it, update the base64 string in `js/main.js` (and the copy in the inline
+script in `404.html`):
+
+```bash
+python3 -c "import base64; print(base64.b64encode(b'you@example.com').decode())"
+```

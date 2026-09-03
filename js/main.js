@@ -37,6 +37,7 @@
   const projEl   = document.getElementById("project");
   const info     = document.getElementById("info");
   const contact  = document.getElementById("contact");
+  const emailReveal = document.getElementById("email-reveal");
   const videos   = document.getElementById("videos");
   const videoPanel = document.getElementById("video-panel");
   const videoClose = document.getElementById("video-close");
@@ -245,6 +246,21 @@
   contact.addEventListener("click", function () {
     setInfo(!infoOpen);
   });
+
+  // The address is assembled at click time and never appears in the HTML
+  // source, so address-harvesting crawlers have nothing to scrape. A crawler
+  // that runs JavaScript can still get it — this stops the simple ones.
+  if (emailReveal) {
+    emailReveal.addEventListener("click", function () {
+      const address = window.atob("aGVsbG9AaGFycnlkb3duLmRlc2lnbg==");
+      const link = document.createElement("a");
+      link.className = "info__mail";
+      link.href = "mailto:" + address;
+      link.textContent = address.toUpperCase();
+      emailReveal.replaceWith(link);
+      link.focus();
+    });
+  }
 
   function setVideoPanel(open) {
     videoOpen = open;

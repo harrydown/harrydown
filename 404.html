@@ -141,7 +141,7 @@
         <li>CONTENT</li>
       </ul>
 
-      <a class="label" href="mailto:hello@harrydown.design">HELLO@HARRYDOWN.DESIGN</a>
+      <button class="label" id="email-reveal" type="button">EMAIL ME</button>
     </div>
   </section>
 
@@ -162,6 +162,18 @@
       }
 
       contact.addEventListener("click", function () { set(!open); });
+
+      // Assembled at click time so the address never sits in the page source.
+      var reveal = document.getElementById("email-reveal");
+      reveal.addEventListener("click", function () {
+        var address = window.atob("aGVsbG9AaGFycnlkb3duLmRlc2lnbg==");
+        var link = document.createElement("a");
+        link.className = "label";
+        link.href = "mailto:" + address;
+        link.textContent = address.toUpperCase();
+        reveal.replaceWith(link);
+        link.focus();
+      });
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape" && open) set(false);
       });
