@@ -29,6 +29,18 @@
   const PORTRAIT_AT = 1.15;  // height/width above this reads as portrait
   const LANDSCAPE_AT = 0.87; // ...and below this, as landscape
 
+  /* -------------------------------------------------------------- events */
+
+  // Umami may be blocked, still loading, or absent locally — never let a
+  // missing analytics script break the site.
+  function trackEvent(name, data) {
+    try {
+      if (window.umami && typeof window.umami.track === "function") {
+        window.umami.track(name, data);
+      }
+    } catch (e) { /* analytics must never throw */ }
+  }
+
   /* ------------------------------------------------------------ elements */
 
   const stage    = document.getElementById("stage");
@@ -225,6 +237,14 @@
     }
   }
 
+  // Tag a link you send as ?ref=studio-name and the visit is attributed to it.
+  const referredBy = new URLSearchParams(window.location.search).get("ref");
+  if (referredBy) {
+    window.addEventListener("load", function () {
+      trackEvent("ref", { ref: referredBy });
+    });
+  }
+
   /* ------------------------------------------------------- contact screen */
 
   // Put EMAIL ME back, so reopening the screen never shows a bare address.
@@ -255,6 +275,7 @@
   }
 
   contact.addEventListener("click", function () {
+    if (!infoOpen) trackEvent("contact-opened");
     setInfo(!infoOpen);
   });
 
@@ -263,6 +284,8 @@
   // that runs JavaScript can still get it — this stops the simple ones.
   if (emailReveal) {
     emailReveal.addEventListener("click", function () {
+      trackEvent("email-revealed");
+
       const address = window.atob("aGVsbG9AaGFycnlkb3duLmRlc2lnbg==");
       const link = document.createElement("a");
       link.className = "info__mail";
@@ -311,6 +334,12 @@
     videoList.querySelectorAll("button").forEach(function (button) {
       button.classList.toggle("is-active", button === choice);
     });
+    trackEvent("video", {
+      video: choice.dataset.title,
+      opened_from: new URLSearchParams(window.location.search).get("video")
+        ? "link" : "list"
+    });
+
     videoPlayer.src = choice.dataset.video;
     videoPlayer.hidden = false;
     videoEmpty.hidden = true;

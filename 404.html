@@ -11,6 +11,7 @@
 <link rel="icon" href="/favicon-32-light.png?v=8" sizes="32x32" type="image/png"
       media="(prefers-color-scheme: light)">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=8">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="40035a4a-b023-47fd-a177-6272f5355262"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -184,6 +185,19 @@
       var open = false;
       var revealed = null;
 
+      function track(name, data) {
+        try {
+          if (window.umami && typeof window.umami.track === "function") {
+            window.umami.track(name, data);
+          }
+        } catch (e) { /* analytics must never throw */ }
+      }
+
+      // Which dead links people are actually hitting — the useful part of a 404.
+      window.addEventListener("load", function () {
+        track("404", { path: window.location.pathname + window.location.search });
+      });
+
       // Put EMAIL ME back, so reopening never shows a bare address.
       function hideEmail() {
         if (!revealed) return;
@@ -205,7 +219,10 @@
         }
       }
 
-      contact.addEventListener("click", function () { set(!open); });
+      contact.addEventListener("click", function () {
+        if (!open) track("contact-opened");
+        set(!open);
+      });
 
       // Square cursor: only where there's a real pointer to replace.
       var FINE_POINTER = !window.matchMedia ||
@@ -232,6 +249,7 @@
 
       // Assembled at click time so the address never sits in the page source.
       reveal.addEventListener("click", function () {
+        track("email-revealed");
         var address = window.atob("aGVsbG9AaGFycnlkb3duLmRlc2lnbg==");
         var link = document.createElement("a");
         link.className = "label";
