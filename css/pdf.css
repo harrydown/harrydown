@@ -79,9 +79,14 @@ a.label:focus-visible {
 }
 
 .page canvas {
+  /* Cover the frame exactly. With height:auto the canvas can land a fraction
+     of a pixel short, and the white paper underneath shows as a hairline —
+     invisible on a white page, obvious under one with a black background. */
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
 }
 
 .status {
