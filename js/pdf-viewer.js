@@ -8,10 +8,13 @@
  * Config comes from data attributes on <body>, set by each page under /p/.
  */
 
-import * as pdfjsLib from "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.min.mjs";
+// A static import needs a literal, so the version is written out here and
+// mirrored in PDFJS below — keep the two in step when upgrading.
+import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.3.289/build/pdf.min.mjs";
 
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/6.3.289/pdf.worker.min.mjs";
+const PDFJS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@6.3.289";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + "/build/pdf.worker.min.mjs";
 
 const RENDER_AHEAD = "600px";    // start rendering a page before it scrolls in
 const KEEP_AHEAD   = "2400px";   // ...and throw its canvas away well past that
@@ -64,6 +67,11 @@ async function render() {
   try {
     pdf = await pdfjsLib.getDocument({
       url: file,
+      // These decks contain JPEG 2000 images, which PDF.js decodes with a
+      // separate WebAssembly module. Without this it fails silently — the
+      // artwork simply doesn't appear and it warns that a dependent image
+      // isn't ready.
+      wasmUrl: PDFJS + "/wasm/",
       // Draw glyphs as vector paths rather than handing the embedded fonts to
       // the browser's font engine. The subset fonts in these decks declare
       // advance widths narrower than the glyphs, and the browser clips each
@@ -93,10 +101,23 @@ async function render() {
     frame.style.aspectRatio = view.width + " / " + view.height;
     frame.dataset.page = String(n);
     doc.appendChild(frame);
-    frames.push({ frame, page, view, canvas: null, task: null, renderedAt: null });
+    frames.push({ frame, page, view, canvas: null, task: null,
+                  pending: null, renderedAt: null });
   }
 
-  async function draw(entry) {
+  // Serialise renders per page. Cancelling a render and starting another
+  // immediately leaves PDF.js executing an operator list whose images are
+  // still decoding — it warns "Dependent image isn't ready yet" and paints
+  // blank boxes where the artwork should be. Waiting for the previous task to
+  // unwind first is what makes scroll-in/scroll-out re-rendering safe.
+  function draw(entry) {
+    entry.pending = Promise.resolve(entry.pending)
+      .catch(function () { /* a cancelled render is expected */ })
+      .then(function () { return drawNow(entry); });
+    return entry.pending;
+  }
+
+  async function drawNow(entry) {
     const width = entry.frame.clientWidth;
     const scale = currentScale();
 
