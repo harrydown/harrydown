@@ -128,11 +128,15 @@ async function render() {
     entry.renderedAt = width * scale;
     const viewport = entry.page.getViewport({ scale: (width / entry.view.width) * scale });
 
-    // Round up, never down: flooring can shave the last column or row of
-    // pixels, which clips anything the page draws hard against its edge.
+    // The page is a fractional number of pixels across; the canvas can't be.
+    // Round up, then stretch the render by that fraction so the page fills the
+    // canvas exactly. Rounding up alone left the last row and column uncovered,
+    // painted with the white paper colour — a hairline along the bottom and
+    // right of every page with a black background.
     const canvas = document.createElement("canvas");
     canvas.width = Math.ceil(viewport.width);
     canvas.height = Math.ceil(viewport.height);
+    const fill = [canvas.width / viewport.width, 0, 0, canvas.height / viewport.height, 0, 0];
 
     // A PDF page is paper. Where it has no opaque content — soft shadows,
     // masks, anything exported with transparency — PDF.js leaves the canvas
@@ -141,6 +145,7 @@ async function render() {
     entry.task = entry.page.render({
       canvasContext: canvas.getContext("2d"),
       viewport,
+      transform: fill,
       background: "#ffffff"
     });
     try {
