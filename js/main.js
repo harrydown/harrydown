@@ -53,6 +53,8 @@
   const videos   = document.getElementById("videos");
   const videoPanel = document.getElementById("video-panel");
   const videoClose = document.getElementById("video-close");
+  const imagePanel = document.getElementById("image-panel");
+  const imageFull  = document.getElementById("image-full");
   const videoList = document.getElementById("video-list");
   const videoPlayer = document.getElementById("video-player");
   const videoEmpty = document.getElementById("video-empty");
@@ -73,6 +75,10 @@
   let infoOpen = false;  // contact screen covering the work
   let revealedEmail = null;  // the <a> swapped in for the EMAIL ME button
   let videoOpen = false;
+  let imageOpen = false;
+
+  // Which piece of work each spawned image shows, so a click can open it.
+  const shotItems = new WeakMap();
 
   // A real pointer to replace with the square — false on phones and tablets.
   const FINE_POINTER = !window.matchMedia ||
@@ -208,6 +214,7 @@
     img.style.left = clamp(x, half + EDGE_PAD, vw - half - EDGE_PAD) + "px";
     img.style.top  = clamp(y, EDGE_PAD + 40, vh - EDGE_PAD - 40) + "px";
 
+    shotItems.set(img, item);
     stage.appendChild(img);
     // Force layout so the transition runs from the initial state.
     void img.offsetWidth;
@@ -235,6 +242,8 @@
         }
       }, IDLE_CLEAR);
     }
+
+    return img;
   }
 
   // Tag a link you send as ?ref=studio-name and the visit is attributed to it.
@@ -318,6 +327,52 @@
     }
   }
 
+  /* --------------------------------------------------------- image screen */
+
+  // Behaves like the video screen: full-bleed, CLOSE in the header, Escape
+  // closes, work stops spawning behind it, and ?image=<file> opens straight to it.
+  function setImagePanel(open, item, openedFrom) {
+    imageOpen = open;
+    imagePanel.classList.toggle("is-open", open);
+    imagePanel.setAttribute("aria-hidden", open ? "false" : "true");
+    document.body.classList.toggle("image-open", open);
+
+    travel = 0;
+    lastX = null;
+    lastY = null;
+
+    if (open) {
+      imageFull.src = item.src;
+      imageFull.alt = item.client + " — " + item.project;
+
+      // The corner captions show the last image spawned, which isn't
+      // necessarily the one that was clicked — point them at this one.
+      clientEl.textContent = item.client;
+      projEl.textContent   = item.project;
+      clientEl.classList.add("is-on");
+      projEl.classList.add("is-on");
+
+      trackEvent("image", {
+        image: item.file,
+        client: item.client,
+        project: item.project,
+        opened_from: openedFrom
+      });
+      videoClose.focus();
+    } else {
+      imageFull.removeAttribute("src");
+      const url = new URL(window.location.href);
+      url.searchParams.delete("image");
+      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    }
+  }
+
+  stage.addEventListener("click", function (e) {
+    const shot = e.target.closest(".shot");
+    const item = shot && shotItems.get(shot);
+    if (item) setImagePanel(true, item, "click");
+  });
+
   if (videos) {
     videos.addEventListener("click", function () {
       setVideoPanel(!videoOpen);
@@ -325,7 +380,8 @@
   }
 
   videoClose.addEventListener("click", function () {
-    setVideoPanel(false);
+    if (imageOpen) setImagePanel(false);
+    else setVideoPanel(false);
   });
 
   videoList.addEventListener("click", function (e) {
@@ -358,9 +414,16 @@
     }
   }
 
+  const requestedImage = new URLSearchParams(window.location.search).get("image");
+  if (requestedImage) {
+    const item = WORK.find(function (w) { return w.file === requestedImage; });
+    if (item) setImagePanel(true, item, "link");
+  }
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && infoOpen) setInfo(false);
     if (e.key === "Escape" && videoOpen) setVideoPanel(false);
+    if (e.key === "Escape" && imageOpen) setImagePanel(false);
   });
 
   /* -------------------------------------------------------------- motion */
@@ -376,7 +439,7 @@
     if (frame === null) frame = window.requestAnimationFrame(paint);
 
     // The cursor still moves while the contact screen is up; the work doesn't.
-    if (infoOpen || videoOpen) return;
+    if (infoOpen || videoOpen || imageOpen) return;
 
     if (lastX === null) { lastX = x; lastY = y; return; }
 
@@ -406,6 +469,14 @@
   window.addEventListener("touchstart", function (e) {
     const t = e.touches[0];
     if (!t) return;
+    if (infoOpen || videoOpen || imageOpen) return;
+
+    // A tap on a piece of work opens it; a tap on empty space brings up new
+    // work. Without this, every tap would spawn an image under the finger and
+    // the click that follows would immediately open it.
+    const hit = document.elementFromPoint(t.clientX, t.clientY);
+    if (hit && hit.closest && hit.closest(".shot")) return;
+
     lastX = t.clientX;
     lastY = t.clientY;
     travel = 0;
