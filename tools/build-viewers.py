@@ -25,8 +25,8 @@ PORTFOLIOS = [
 
     ("baton",                                  "Harry_Down-Portfolio-Baton_Corporation.pdf", []),
     ("factorial",                              "Harry_Down-Portfolio-Factorial.pdf", []),
-    ("moniepoint",                             "Harry_Down-Portfolio-Moniepoint.pdf", []),
 
+    ("antfarm-product-designer",               "Harry_Down-Portfolio-Antfarm-Product_Designer.pdf", []),
     ("boulevard-collective-brand-designer",    "Harry_Down-Portfolio-The_Boulevard_Collective-Brand_Designer.pdf", ["boulevard-collective"]),
     ("circle",           "Harry_Down-Portfolio-Circle-Senior_Brand_Designer.pdf", []),
     ("cloudtalk-senior-product-designer",      "Harry_Down-Portfolio-Cloudtalk-Senior_Product_Designer.pdf", ["cloudtalk"]),
